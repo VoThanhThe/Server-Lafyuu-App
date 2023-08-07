@@ -1,0 +1,124 @@
+<div class="wrapper ">
+    <div class="sidebar" data-color="orange">
+        <!--
+        Tip 1: You can change the color of the sidebar using: data-color="blue | green | orange | red | yellow"
+    -->
+        <div class="logo">
+            <a href="http://www.creative-tim.com" class="simple-text logo-mini">
+                CT
+            </a>
+            <a href="http://www.creative-tim.com" class="simple-text logo-normal">
+                Creative Tim
+            </a>
+        </div>
+        <div class="sidebar-wrapper" id="sidebar-wrapper">
+            <ul class="nav">
+                <li style="text-align: center; color:#111;">
+                    <a href="/home" style="text-transform: capitalize;">
+                        {{!-- <i class="now-ui-icons design_app"></i> --}}
+                        <p>Dashboard</p>
+                    </a>
+                </li>
+                <li style="text-align: center; color:#111;">
+                    <a href="/cpanel/product/" style="text-transform: capitalize;">
+                        {{!-- <i class="now-ui-icons design_bullet-list-67"></i> --}}
+                        <p>Table List</p>
+                    </a>
+                </li>
+                <li style="text-align: center; color:#111;">
+                    <a href="/detail" style="text-transform: capitalize;">
+                        {{!-- <i class="now-ui-icons text_caps-small"></i> --}}
+                        <p>Detail</p>
+                    </a>
+                </li>
+                <li class="active" style="text-align: center; color:#111;">
+                    <a href="/cpanel/product/new" style="text-transform: capitalize;">
+                        {{!-- <i class="now-ui-icons text_caps-small"></i> --}}
+                        <p>Form</p>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="main-panel" id="main-panel">
+        <!-- Navbar -->
+        <nav class="navbar navbar-expand-lg navbar-transparent  bg-primary  navbar-absolute">
+            <div class="container-fluid">
+                <div class="navbar-wrapper">
+                    <div class="navbar-toggle">
+                        <button type="button" class="navbar-toggler">
+                            <span class="navbar-toggler-bar bar1"></span>
+                            <span class="navbar-toggler-bar bar2"></span>
+                            <span class="navbar-toggler-bar bar3"></span>
+                        </button>
+                    </div>
+                    <a class="navbar-brand" href="#pablo" style="text-transform: capitalize;">Form</a>
+                </div>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation"
+                    aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-bar navbar-kebab"></span>
+                    <span class="navbar-toggler-bar navbar-kebab"></span>
+                    <span class="navbar-toggler-bar navbar-kebab"></span>
+                </button>
+            </div>
+        </nav>
+        <!-- End Navbar -->
+        <div class="panel-header panel-header-sm">
+        </div>
+        <div class="content">
+            <div class="row">
+                <form method="post" action="/cpanel/product/{{product._id}}/edit" enctype="multipart/form-data"
+                    style="background-color: #ffffff; border-radius: 20px; top: 0px; position: relative; padding: 16px;">
+                    <h2 style="color: #FC7300; ">Form Product</h2>
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">Name</label>
+                        <input value="{{product.name}}" name="name" type="text" class="form-control" id="exampleInputEmail1"
+                            aria-describedby="emailHelp">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Price</label>
+                        <input value="{{product.price}}" name="price" type="number" class="form-control" id="exampleInputPassword1">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Quantity</label>
+                        <input value="{{product.quantity}}" name="quantity" type="number" class="form-control" id="exampleInputPassword1">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Image</label>
+                        <input id="file" onchange="displayImg()" name="image" type="file" class="form-control" id="exampleInputPassword1">
+                        <img id="img" src="{{product.image}}" alt="" width="100", height="100">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Category</label>
+                        <select name="category" class="form-select">
+                            {{#each categories}}
+                                {{#if this.selected}}
+                                <option value="'{{this._id}}'">{{this.name}}</option>
+                                {{else}}
+                                <option value="'{{this._id}}'">{{this.name}}</option>
+                                {{/if}}
+                            {{/each}}
+
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // hiển thị hình ảnh khi chọn
+    const displayImg = () => {
+        var file = document.getElementById('file').files[0];
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            var image = document.getElementById("img");
+            image.src = e.target.result;
+        }
+        reader.readAsDataURL(file);
+    }
+
+</script>
