@@ -40,7 +40,8 @@ app.use(session({
   cookie: { secure: false }
 }));
 //mongoose
-mongoose.connect('mongodb://127.0.0.1:27017/CP17309', {
+// mongoose.connect('mongodb://127.0.0.1:27017/CP17309', {
+mongoose.connect('mongodb+srv://vothanhthe:vothanhthe@cluster0.myknnl1.mongodb.net/CP17309?retryWrites=true&w=majority', {
   useNewUrlParser: true,
   useUnifiedTopology: true
 })
