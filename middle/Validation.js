@@ -2,8 +2,8 @@
 
 const checkRegister = async (req, res, next) => {
     try {
-        const { email, password, name, confirm_password } = req.body;
-        if (!email || !password || !name || !confirm_password) {
+        const { email, password, confirm_password } = req.body;
+        if (!email || !password || !confirm_password) {
             return res.status(400).json({
                 result: false,
                 message: "Vui lòng nhập đầy đủ thông tin!"

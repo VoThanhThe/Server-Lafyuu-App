@@ -7,9 +7,9 @@ const schema = new Schema({
     total_price: { type: Number, required: true }, // Tổng giá trị đơn hàng
     status: { type: String, default: "Processing" }, // Trạng thái đơn hàng (đang xử lý, đã giao hàng, v.v.)
     shipping_info: {
-        address: { type: String },
-        receiver_name: { type: String },
-        phone: { type: String },
+        address: { type: String, required: true },
+        receiver_name: { type: String, required: true },
+        phone: { type: String, required: true },
     },
     items: [
         {
