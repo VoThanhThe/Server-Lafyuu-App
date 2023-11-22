@@ -15,7 +15,7 @@ const login = async (email, password) => {
     return false;
 }
 
-const register = async (email, password, name) => {
+const register = async (email, password) => {
     try {
         //kiểm tra tài khoản đã có chưa
         // select * from users where email = email
@@ -23,7 +23,7 @@ const register = async (email, password, name) => {
         if (!user) {
             const salt = bcrypt.genSaltSync(10);
             const hash = bcrypt.hashSync(password, salt);
-            const newUser = { email, password: hash, name, role: 1 };
+            const newUser = { email, password: hash, role: 1 };
             await userModel.create(newUser);
             return true;
         }
@@ -33,7 +33,26 @@ const register = async (email, password, name) => {
     return false;
 }
 
-module.exports = { login, register };
+const edit_profile = async (user_id, avatar, name, gender, birthday) => {
+    try {
+        //kiểm tra tài khoản đã có chưa
+        // select * from users where email = email
+        const user = await userModel.findOne({ _id: user_id });
+        if (user) {
+            user.profile.avatar = avatar ? avatar : user.profile.avatar;
+            user.profile.name = name ? name : user.profile.name;
+            user.profile.gender = gender ? gender : user.profile.gender;
+            user.profile.birthday = birthday ? birthday : user.profile.birthday;
+            await user.save();
+            return true;
+        }
+    } catch (error) {
+        console.log(error);
+    }
+    return false;
+}
+
+module.exports = { login, register, edit_profile };
 
 var users = [
     { _id: 1, email: 'abc@gmail.com', password: '123', name: "Nguyễn Nam" },
