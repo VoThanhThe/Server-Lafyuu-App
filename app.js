@@ -17,6 +17,7 @@ const productCPanelRouter = require('./routes/cpanel/ProductCPanel');
 const userCPanelRouter = require('./routes/cpanel/UserCPanel');
 const productAPIRouter = require('./routes//api/ProductAPI');
 const userAPIRouter = require('./routes/api/UserAPI');
+const paymentRouter = require('./routes/api/PaymentAPI');
 
 
 
@@ -63,6 +64,8 @@ app.use('/cpanel/product', productCPanelRouter);
 app.use('/api/user', userAPIRouter);
 //http://localhost:3000/api/product
 app.use('/api/product', productAPIRouter);
+//http://localhost:3000/api/product
+app.use('/payments', paymentRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
