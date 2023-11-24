@@ -13,7 +13,7 @@ const schema = new Schema({
     },
     items: [
         {
-            product_id: { type: Schema.Types.ObjectId, ref: 'product' },
+            product_id: { type: Schema.Types.ObjectId, ref: 'product', required: true },
             quantity: { type: Number, required: true },
             price: { type: Number, required: true }
         }

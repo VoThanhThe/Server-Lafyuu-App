@@ -18,8 +18,7 @@ const userCPanelRouter = require('./routes/cpanel/UserCPanel');
 const productAPIRouter = require('./routes//api/ProductAPI');
 const userAPIRouter = require('./routes/api/UserAPI');
 const paymentRouter = require('./routes/api/PaymentAPI');
-
-
+const orderRouter = require('./routes/api/OrderAPI');
 
 var app = express();
 
@@ -66,6 +65,8 @@ app.use('/api/user', userAPIRouter);
 app.use('/api/product', productAPIRouter);
 //http://localhost:3000/api/product
 app.use('/payments', paymentRouter);
+//http://localhost:3000/api/order
+app.use('/api/order', orderRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
