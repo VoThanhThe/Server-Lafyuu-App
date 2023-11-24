@@ -14,6 +14,17 @@ const getAllProducts = async () => {
     return [];
 }
 
+const getProductsByCategory = async (categoryID) => {
+    try {
+        // return data;
+        // select * from 
+        return await productModel.find({category: categoryID});
+    } catch (error) {
+        console.log('Get all products error: ', error);
+    }
+    return [];
+}
+
 //Delete product
 const deleteProductByID = async (id) => {
     try {
@@ -129,6 +140,6 @@ const getAllProducts2 = async () => {
     return [];
 }
 module.exports = { getAllProducts, deleteProductByID, addNewProduct, updateProduct, 
-    getProductByID, search, getAllProducts2 };
+    getProductByID, search, getAllProducts2, getProductsByCategory };
 
 //size = 20, page = 4

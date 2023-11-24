@@ -9,6 +9,15 @@ const getAllProduct = async () => {
     }
 }
 
+const getProductsByCategory = async (categoryID) => {
+    try {
+        //return await productService.getAllProducts();
+        return await productService.getProductsByCategory(categoryID);
+    } catch (error) {
+        throw error;
+    }
+}
+
 const deleteProductByID = async (id) => {
     try {
         return await productService.deleteProductByID(id);
@@ -51,4 +60,4 @@ const search = async (keyword) => {
 }
 
 module.exports = {getAllProduct, deleteProductByID, addNewProduct, 
-    updateProduct, getProductByID, search};
+    updateProduct, getProductByID, search, getProductsByCategory};

@@ -27,6 +27,24 @@ router.get('/',[authenApp], async (req, res, next) => {
         return res.status(400).json({});
     }
 })
+
+//http://localhost:3000/api/product/categories/?categoryID=
+
+router.get('/categories',[authenApp], async (req, res, next) => {
+    try {
+        const {categoryID} = req.query;
+        const products = await productController.getProductsByCategory(categoryID);
+        const returnData = {
+            error: false,
+            responseTimestamp: new Date(),
+            statusCode: 200,
+            data: {},
+        }
+        return res.status(200).json({result: true, products: products,returnData});
+    } catch (error) {
+        return res.status(400).json({result: false, products: null, error: error.message});
+    }
+})
 //http://localhost:3000/api/product/:id
 router.get('/:id', async (req, res, next) => {
     try {
