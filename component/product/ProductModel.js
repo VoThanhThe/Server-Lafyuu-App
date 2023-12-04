@@ -7,7 +7,8 @@ const schema = new Schema({
     price: {type: Number}, // Giá
     quantity: {type: Number}, // Số lượng tồn kho
     image: {type: String}, // Hình ảnh sản phẩm
-    category: {type: ObjectId, ref: 'category'} // khóa ngoại(Danh mục sản phẩm)
+    category: {type: ObjectId, ref: 'category'}, // khóa ngoại(Danh mục sản phẩm)
+    status: {type: Boolean, default: true}
 });
 module.exports = mongoose.models.product || mongoose.model('product', schema);
 // product -----> products

@@ -6,7 +6,8 @@ const schema = new Schema({
     timeOrder: {type: Date, default: Date.now}, // Thời gian đặt hàng
     totalPrice: {type: Number, required: true}, // Tổng giá trị đơn hàng
     status: {type: String, default: "Đang xử lý"}, // Trạng thái đơn hàng (đang xử lý, đã giao hàng, v.v.)
-    user: {type: ObjectId, ref: 'user'} // Thông tin giao hàng (địa chỉ, người nhận, v.v.)
+    user: {type: ObjectId, ref: 'user'}, // Thông tin giao hàng (địa chỉ, người nhận, v.v.)
+    status: {type: Boolean, default: true}
 });
 module.exports = mongoose.models.order || mongoose.model('order', schema);
 // order -----> orders

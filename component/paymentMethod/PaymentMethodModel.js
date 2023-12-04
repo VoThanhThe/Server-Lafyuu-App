@@ -6,7 +6,8 @@ const schema = new Schema({
     details: {
         card_number: { type: String },
         expiration_date: { type: String },
-        cvv: { type: String }
+        cvv: { type: String },
+        status: {type: Boolean, default: true}
     }
 });
 module.exports = mongoose.models.payment || mongoose.model('payment', schema);
