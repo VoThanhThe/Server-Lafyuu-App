@@ -25,6 +25,12 @@ const giveCurrentDateTime = () => {
   return dateTime;
 }
 
+//http://localhost:3000/cpanel/product/home
+router.get('/home', async function (req, res, next) {
+  const products = await productController.getAllProduct();
+  res.render('./product/home', { products });
+});
+
 //http://localhost:3000/cpanel/product/
 router.get('/', [auth.authenWeb], async function (req, res, next) {
   const products = await productController.getAllProduct();
@@ -88,12 +94,13 @@ router.post('/new', [upload.single('image'),], async function (req, res, next) {
 
 
 //http://localhost:3000/cpanel/product/
-//hien thi trang cap nhat san pham
+//hien thi trang cap nhat san pham  
 router.get('/:id/edit', [auth.authenWeb], async function (req, res, next) {
   try {
     const { id } = req.params;
     const product = await productController.getProductByID(id);
     let categories = await categoryController.getAllCategory();
+    // console.log("Category: ", categories)
     for (let index = 0; index < categories.length; index++) {
       const element = categories[index];
       categories[index].selected = false;
@@ -101,6 +108,7 @@ router.get('/:id/edit', [auth.authenWeb], async function (req, res, next) {
         categories[index].selected = true;
       }
     }
+
     res.render('product/edit', { product, categories });
   } catch (error) {
     next(error);
@@ -110,17 +118,36 @@ router.get('/:id/edit', [auth.authenWeb], async function (req, res, next) {
 
 //http://localhost:3000/cpanel/product/:id/edit
 //xu li cap nhat san pham
-router.post('/:id/edit', [uploadFile.single('image'),], async function (req, res, next) {
+router.post('/:id/edit', [upload.single('image'),], async function (req, res, next) {
   try {
     //cmd >>>>  ipconfig >>>>>>>>> IPv4 Address;
-    let { id } = req.params;
-    let { body, file } = req;
-    if (file) {
-      let image = `${CONFIG.CONTANTS.IP}images/${file.filename}`;
-      body = { ...body, image: image };
-    }
-    let { name, price, quantity, image, category } = body;
-    await productController.updateProduct(id, name, price, quantity, image, category);
+    // let { id } = req.params;
+    // let { body, file } = req;
+    // if (file) {
+    //   let image = `${CONFIG.CONTANTS.IP}images/${file.filename}`;
+    //   body = { ...body, image: image };
+    // }
+    // let { name, price, quantity, image, category } = body;
+    const {id} = req.params;
+    let { name, price, quantity, image, category } = req.body;
+
+    const dateTime = giveCurrentDateTime();
+
+    const storageRef = ref(storage, `products/${req.file.originalname + "       " + dateTime}`);
+
+    // Create file metadata including the content type
+    const metadata = {
+      contentType: req.file.mimetype,
+    };
+
+    // Upload the file in the bucket storage
+    const snapshot = await uploadBytesResumable(storageRef, req.file.buffer, metadata);
+
+    // Grab the public url
+    const downloadURL = await getDownloadURL(snapshot.ref);
+
+    console.log('File successfully uploaded.');
+    await productController.updateProduct(id, name, price, quantity, downloadURL, category);
     return res.redirect('/cpanel/product');
   } catch (error) {
     console.log('Update product error: ', error);
