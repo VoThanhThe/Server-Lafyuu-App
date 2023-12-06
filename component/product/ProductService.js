@@ -7,7 +7,7 @@ const getAllProducts = async () => {
     try {
         // return data;
         // select * from 
-        return await productModel.find();
+        return await productModel.find({status: true});
     } catch (error) {
         console.log('Get all products error: ', error);
     }
@@ -28,13 +28,12 @@ const getProductsByCategory = async (categoryID) => {
 //Delete product
 const deleteProductByID = async (id) => {
     try {
-        // const index = data.findIndex(item => item._id.toString() == id.toString());
-        // if(index >= 0){
-        //     data.splice(index,1);
-        // }
-
-        await productModel.findByIdAndDelete(id);
-        return true;
+        let product = await productModel.findById(id);
+        if (product) {
+            product.status = false;
+            await product.save();
+            return true;
+        }
     } catch (error) {
         console.log('Delete product by ID error', error);
         throw error;
