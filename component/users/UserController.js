@@ -43,7 +43,15 @@ const sendEmail = async (req,res,next) => {
     
 }
 
+const getAllUser = async () => {
+    try {
+        return await userService.getAllUser();
+    } catch (error) {
+        throw error;
+    }
+}
 
-module.exports = {login, register, edit_profile};
+
+module.exports = {login, register, edit_profile, getAllUser};
 //Email account;
 //pnpxfmlosbkdmkhm

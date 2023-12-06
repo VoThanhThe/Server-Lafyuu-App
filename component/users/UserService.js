@@ -52,7 +52,18 @@ const edit_profile = async (user_id, avatar, name, gender, birthday) => {
     return false;
 }
 
-module.exports = { login, register, edit_profile };
+const getAllUser = async () => {
+    try {
+        // return data;
+        // select * from 
+        return await userModel.find({role: 1});
+    } catch (error) {
+        console.log('Get all users error: ', error);
+    }
+    return [];
+}
+
+module.exports = { login, register, edit_profile, getAllUser };
 
 var users = [
     { _id: 1, email: 'abc@gmail.com', password: '123', name: "Nguyễn Nam" },

@@ -1,8 +1,8 @@
 <!--  Body Wrapper -->
-  <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
-    data-sidebar-position="fixed" data-header-position="fixed">
-    <!-- Sidebar Start -->
-    <aside class="left-sidebar">
+<div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+  data-sidebar-position="fixed" data-header-position="fixed">
+  <!-- Sidebar Start -->
+  <aside class="left-sidebar">
     <!-- Sidebar scroll-->
     <div>
       <div class="brand-logo d-flex align-items-center justify-content-between">
@@ -54,7 +54,7 @@
             </a>
           </li>
           <li class="sidebar-item">
-            <a class="sidebar-link" href="http://localhost:3000/cpanel/product/" aria-expanded="false">
+            <a class="sidebar-link" href="http://localhost:3000/cpanel/user/get-all-account" aria-expanded="false">
               <span>
                 <i class="ti ti-file-description"></i>
               </span>
@@ -90,11 +90,11 @@
     </div>
     <!-- End Sidebar scroll-->
   </aside>
-    <!--  Sidebar End -->
-    <!--  Main wrapper -->
-    <div class="body-wrapper">
-      <!--  Header Start -->
-      <header class="app-header">
+  <!--  Sidebar End -->
+  <!--  Main wrapper -->
+  <div class="body-wrapper">
+    <!--  Header Start -->
+    <header class="app-header">
       <nav class="navbar navbar-expand-lg navbar-light">
         <ul class="navbar-nav">
           <li class="nav-item d-block d-xl-none">
@@ -139,61 +139,105 @@
         </div>
       </nav>
     </header>
-      <!--  Header End -->
-      <div class="container-fluid">
-        <div class="container-fluid">
-          <div class="card">
-            <div class="card-body">
-              <div class="card">
-                <div class="card-body">
-                  <form method="post" action="/cpanel/product/new" enctype="multipart/form-data">
-                    <div class="mb-3">
-                      <label for="exampleInputEmail1" class="form-label">Tên sản phẩm</label>
-                      <input type="text" name="name" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-                    </div>
-                    <div class="mb-3">
-                      <label for="exampleInputEmail1" class="form-label">Giá</label>
-                      <input type="number" name="price" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-                    </div>
-                    <div class="mb-3">
-                      <label for="exampleInputEmail1" class="form-label">Số lượng</label>
-                      <input type="number" name="quantity" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-                    </div>
-                    <div class="mb-3">
-                      <label for="exampleInputEmail1" class="form-label">Hình ảnh</label>
-                      <input type="file" name="image" id="file" onchange="displayImg()" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-                    <img id="img" src="{{product.image}}" alt="Hình ảnh sản phẩm" width="100", height="100">
-                    </div>
-                    <div class="mb-3">
-                        <label for="disabledSelect" class="form-label">Danh mục sản phẩm</label>
-                        <select name="category" class="form-select">
-                            {{#each categories}}
-                            <option value="{{this._id}}">{{this.name}}</option>
-                            {{/each}}
-                            
-                        </select>
-                      </div>
-                    <button type="submit" class="btn btn-primary">Đồng ý</button>
-                  </form>
-                </div>
-              </div>
-            </div>
-          </div>
+    <!--  Header End -->
+    <div class="container-fluid">
+      <div style="display: flex; justify-content: space-between;">
+        <h1>Khách hàng</h1>
+      </div>
+      <div class="card">
+        <div class="card-body">
+          <table class="table">
+            <thead class=" text-primary">
+              <th>
+                ID
+              </th>
+              <th>
+                Email
+              </th>
+              
+              <th class="text-right">
+                Tên
+              </th>
+              <th class="text-right">
+                Hình ảnh
+              </th>
+            </thead>
+            <tbody>
+              {{#each users}}
+              <tr>
+                <td>
+                  {{this._id}}
+                </td>
+                <td>
+                  {{this.email}}
+                </td>
+                <td>
+                  {{this.profile.name}}
+                </td>
+                
+                <td class="text-right">
+                  <img src="{{this.profile.avatar}}" width="200" height="200" style="object-fit: cover;" />
+
+                </td>
+              </tr>
+              {{/each}}
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
   </div>
+</div>
 
-  <script>
-    // hiển thị hình ảnh khi chọn
-    const displayImg = () => {
-        var file = document.getElementById('file').files[0];
-        var reader = new FileReader();
-        reader.onload = function (e) {
-            var image = document.getElementById("img");
-            image.src = e.target.result;
-        }
-        reader.readAsDataURL(file);
+<script>
+  const fetchAPI = async (url, option) => {
+    const res = await fetch(url, option)
+    return res.json();
+  }
+
+  const deleteProduct = async (id) => {
+    const url = `/cpanel/product/${id}/delete`;
+
+    const option = {
+      method: 'get',
+      headers: { 'Content-Type': 'application/json' }
     }
+    try {
+      const result = await fetchAPI(url, option);
+      console.log('delete result: ', result)
 
+      if (result.tourisState == true && result.status) {
+        swal('Không thể xóa!', {
+          icon: 'error',
+        });
+      }
+
+    } catch (e) {
+      console.log('error delete: ', e)
+      throw e;
+    }
+  }
+
+
+  const confirmDelete = (id) => {
+    swal({
+      title: "Xác nhận xóa?",
+      text: "Bạn có muốn xóa sản phẩm này?",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    })
+      .then((willDelete) => {
+        if (willDelete) {
+          deleteProduct(id);
+          swal({
+            title: "Deleted!",
+            text: "Xóa thành công!!",
+            icon: "success"
+          }).then((wil) => {
+            window.location.reload();
+          })
+        }
+      });
+  }
 </script>

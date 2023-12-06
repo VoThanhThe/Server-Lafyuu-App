@@ -141,12 +141,59 @@
     </header>
       <!--  Header End -->
       <div class="container-fluid">
-        <div class="card">
-          <div class="card-body">
-            <h5 class="card-title fw-semibold mb-4">Sample Page</h5>
-            <p class="mb-0">This is a sample page </p>
+        <div class="container-fluid">
+          <div class="card">
+            <div class="card-body">
+              <div class="card">
+                <div class="card-body">
+                  <form method="post" action="/cpanel/product/new" enctype="multipart/form-data">
+                    <div class="mb-3">
+                      <label for="exampleInputEmail1" class="form-label">Tên sản phẩm</label>
+                      <input type="text" name="name" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                    </div>
+                    <div class="mb-3">
+                      <label for="exampleInputEmail1" class="form-label">Giá</label>
+                      <input type="number" name="price" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                    </div>
+                    <div class="mb-3">
+                      <label for="exampleInputEmail1" class="form-label">Số lượng</label>
+                      <input type="number" name="quantity" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                    </div>
+                    <div class="mb-3">
+                      <label for="exampleInputEmail1" class="form-label">Hình ảnh</label>
+                      <input type="file" name="image" id="file" onchange="displayImg()" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                    <img id="img" src="{{product.image}}" alt="Hình ảnh sản phẩm" width="100", height="100">
+                    </div>
+                    <div class="mb-3">
+                        <label for="disabledSelect" class="form-label">Danh mục sản phẩm</label>
+                        <select name="category" class="form-select">
+                            {{#each categories}}
+                            <option value="{{this._id}}">{{this.name}}</option>
+                            {{/each}}
+                            
+                        </select>
+                      </div>
+                    <button type="submit" class="btn btn-primary">Đồng ý</button>
+                  </form>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
+
+  <script>
+    // hiển thị hình ảnh khi chọn
+    const displayImg = () => {
+        var file = document.getElementById('file').files[0];
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            var image = document.getElementById("img");
+            image.src = e.target.result;
+        }
+        reader.readAsDataURL(file);
+    }
+
+</script>
