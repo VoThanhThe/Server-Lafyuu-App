@@ -85,7 +85,7 @@ router.post('/new', [upload.single('image'),], async function (req, res, next) {
     console.log('File successfully uploaded.');
     // console.log("imageURL:", image);
     await productController.addNewProduct(name, price, quantity, downloadURL, category);
-    return res.redirect('/cpanel/product');
+    return res.redirect('https://lafyuu-shop.onrender.com/cpanel/product');
   } catch (error) {
     console.log('Add new product error: ', error);
     next(error);
@@ -148,7 +148,7 @@ router.post('/:id/edit', [upload.single('image'),], async function (req, res, ne
 
     console.log('File successfully uploaded.');
     await productController.updateProduct(id, name, price, quantity, downloadURL, category);
-    return res.redirect('/cpanel/product');
+    return res.redirect('https://lafyuu-shop.onrender.com/cpanel/product');
   } catch (error) {
     console.log('Update product error: ', error);
     next(error);

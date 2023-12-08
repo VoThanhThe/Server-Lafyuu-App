@@ -33,9 +33,9 @@ router.post('/login', async function(req, res, next) {
   if(result){
     const token = jwt.sign({_id: result._id, role: result.role}, 'secret');
     req.session.token = token;
-    return res.redirect('/');
+    return res.redirect('https://lafyuu-shop.onrender.com/home');
   }else{
-    return res.redirect('/login');
+    return res.redirect('https://lafyuu-shop.onrender.com/login');
   }
 });
 
@@ -60,7 +60,7 @@ router.get('/form', [auth.authenWeb], async function(req, res, next) {
 router.get('/logout', [auth.authenWeb], async function(req, res, next) {
   //hiển thị trang chủ
   req.session.destroy();
-  res.redirect('/login');
+  res.redirect('https://lafyuu-shop.onrender.com/login');
 });
 module.exports = router;
 
