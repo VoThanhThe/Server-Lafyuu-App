@@ -33,7 +33,7 @@ router.post('/login', async function(req, res, next) {
   if(result){
     const token = jwt.sign({_id: result._id, role: result.role}, 'secret');
     req.session.token = token;
-    return res.redirect('https://lafyuu-shop.onrender.com/home');
+    return res.redirect('https://lafyuu-shop.onrender.com/cpanel/product/home');
   }else{
     return res.redirect('https://lafyuu-shop.onrender.com/login');
   }
