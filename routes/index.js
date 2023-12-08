@@ -56,7 +56,7 @@ router.get('/form', [auth.authenWeb], async function(req, res, next) {
   res.render('./user/form');
 });
 
-
+// https://lafyuu-shop.onrender.com/logout
 router.get('/logout', [auth.authenWeb], async function(req, res, next) {
   //hiển thị trang chủ
   req.session.destroy();
