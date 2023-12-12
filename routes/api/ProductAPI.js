@@ -65,8 +65,8 @@ router.get('/:id', async (req, res, next) => {
 //http://localhost:3000/api/product/
 router.post('/', async (req, res, next) => {
     try {
-        const {name, price, quantity,image,category} = req.body;
-        await productController.addNewProduct(name,price,quantity,image,category);
+        const {name, price, quantity,image,category, sale} = req.body;
+        await productController.addNewProduct(name,price,quantity,image,category, sale);
         return res.status(200).json({products});
     } catch (error) {
         return res.status(400).json({});

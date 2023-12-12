@@ -13,6 +13,8 @@ const schema = new Schema({
     },
     role: { type: Number, default: 1, }, // Quyền hạn (quyền người dùng, quản trị viên, v.v.)
     //1: user, 100: admin, 1000: system
+    created_at: {type: Date, default: Date.now},
+    updated_at: {type: Date, default: Date.now},
 });
 module.exports = mongoose.models.user || mongoose.model('user', schema);
 // user -----> users

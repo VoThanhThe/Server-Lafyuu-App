@@ -26,9 +26,9 @@ const deleteProductByID = async (id) => {
     }
 }
 
-const updateProduct = async (id,name,price,quantity,image,category) => {
+const updateProduct = async (id,name,price,quantity,image,category, sale) => {
     try {
-        return await productService.updateProduct(id,name,price,quantity,image,category);
+        return await productService.updateProduct(id,name,price,quantity,image,category, sale);
     } catch (error) {
         console.log('Update product error',error);
     }
@@ -43,9 +43,9 @@ const getProductByID = async (id) => {
 }
 
 
-const addNewProduct = async (name,price,quantity,image,category) => {
+const addNewProduct = async (name,price,quantity,image,category, sale) => {
     try {
-        await productService.addNewProduct(name,price,quantity,image,category);
+        await productService.addNewProduct(name,price,quantity,image,category, sale);
     } catch (error) {
         console.log('get product by id error',error);
     }

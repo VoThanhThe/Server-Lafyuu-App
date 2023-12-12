@@ -14,11 +14,13 @@ var dienTichRouter = require('./routes/TinhDienTich');
 var chuviRouter = require('./routes/chuvi');
 const productRouter = require('./routes/product');
 const productCPanelRouter = require('./routes/cpanel/ProductCPanel');
+const categoryCPanelRouter = require('./routes/cpanel/CategoriesCpanel');
 const userCPanelRouter = require('./routes/cpanel/UserCPanel');
 const productAPIRouter = require('./routes//api/ProductAPI');
 const userAPIRouter = require('./routes/api/UserAPI');
 const paymentRouter = require('./routes/api/PaymentAPI');
 const orderRouter = require('./routes/api/OrderAPI');
+const categoryRouter = require('./routes/api/CategoryAPI');
 
 var app = express();
 
@@ -59,6 +61,8 @@ app.use('/chu-vi', chuviRouter);
 app.use('/cpanel/user', userCPanelRouter);
 //http://localhost:3000/cpanel/product
 app.use('/cpanel/product', productCPanelRouter);
+//http://localhost:3000/cpanel/categories
+app.use('/cpanel/categories', categoryCPanelRouter);
 //http://localhost:3000/api/user
 app.use('/api/user', userAPIRouter);
 //http://localhost:3000/api/product
@@ -67,6 +71,8 @@ app.use('/api/product', productAPIRouter);
 app.use('/payments', paymentRouter);
 //http://localhost:3000/api/order
 app.use('/api/order', orderRouter);
+//http://localhost:3000/api/categories
+app.use('/api/categories', categoryRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

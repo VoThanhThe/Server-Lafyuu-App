@@ -7,7 +7,7 @@ const getAllProducts = async () => {
     try {
         // return data;
         // select * from 
-        return await productModel.find({status: true});
+        return await productModel.find({status: true}).sort({created_at: -1});
     } catch (error) {
         console.log('Get all products error: ', error);
     }
@@ -41,14 +41,15 @@ const deleteProductByID = async (id) => {
 }
 
 //Them moi san pham
-const addNewProduct = async (name, price, quantity, image, category) => {
+const addNewProduct = async (name, price, quantity, image, category, sale) => {
     try {
         const newProduct = {
             name,
             price,
             quantity,
             image,
-            category
+            category,
+            sale
         }
         // data.push(newProduct);
         await productModel.create(newProduct);
@@ -61,7 +62,7 @@ const addNewProduct = async (name, price, quantity, image, category) => {
 }
 
 //Update san pham
-const updateProduct = async (id, name, price, quantity, image, category) => {
+const updateProduct = async (id, name, price, quantity, image, category, sale) => {
     try {
         let item = await productModel.findById(id);
         //let item = await itemModel.findById(id);
@@ -71,6 +72,8 @@ const updateProduct = async (id, name, price, quantity, image, category) => {
             item.quantity = quantity ? quantity : item.quantity;
             item.image = image ? image : item.image;
             item.category = category ? category : item.category;
+            item.sale = sale ? sale : item.sale;
+            item.updated_at = new Date();
             await item.save();
             return true;
         }

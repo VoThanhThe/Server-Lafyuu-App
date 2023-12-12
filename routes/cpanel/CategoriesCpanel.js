@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const productController = require('../../component/product/ProductController');
 const categoryController = require('../../component/categories/CategoryController');
 const uploadFile = require('../../middle/UploadFile');
 const CONFIG = require('../../config/Config');
@@ -12,7 +11,7 @@ const { getStorage, ref, getDownloadURL, uploadBytesResumable } = require("fireb
 const multer = require("multer");
 // Initialize Cloud Storage and get a reference to the service
 const storage = getStorage();
-const storageRef = ref(storage, 'products/');
+const storageRef = ref(storage, 'categories/');
 
 // Setting up multer as a middleware to grab photo uploads
 const upload = multer({ storage: multer.memoryStorage() });
@@ -25,22 +24,16 @@ const giveCurrentDateTime = () => {
   return dateTime;
 }
 
-//http://localhost:3000/cpanel/product/home
-router.get('/home', [auth.authenWeb], async function (req, res, next) {
-  const products = await productController.getAllProduct();
-  res.render('./product/home', { products });
-});
-
-//http://localhost:3000/cpanel/product/
+//http://localhost:3000/cpanel/categories
 router.get('/', [auth.authenWeb], async function (req, res, next) {
-  const products = await productController.getAllProduct();
-  res.render('./product/list', { products });
+  const categories = await categoryController.getAllCategory();
+  res.render('./categories/list', { categories });
 });
-//http://localhost:3000/cpanel/product/:id/delete
+//http://localhost:3000/cpanel/categories/:id/delete
 router.get('/:id/delete', [auth.authenWeb], async function (req, res, next) {
   try {
     const { id } = req.params;
-    await productController.deleteProductByID(id);
+    await categoryController.deleteCategoryByID(id);
     res.json({ status: true });
   } catch (error) {
     res.json({ status: false });
@@ -48,14 +41,13 @@ router.get('/:id/delete', [auth.authenWeb], async function (req, res, next) {
 
 });
 
-//http://localhost:3000/cpanel/product/new
+//http://localhost:3000/cpanel/categories/new
 //hien thi trang them moi san pham
 router.get('/new', [auth.authenWeb], async function (req, res, next) {
-  const categories = await categoryController.getAllCategory();
-  res.render('product/insert', { categories });
+  res.render('categories/insert', {});
 });
 
-//http://localhost:3000/cpanel/product/new
+//http://localhost:3000/cpanel/categories/new
 //xu li them moi san pham
 router.post('/new', [upload.single('image'),], async function (req, res, next) {
   try {
@@ -65,11 +57,11 @@ router.post('/new', [upload.single('image'),], async function (req, res, next) {
     //   let image = `${CONFIG.CONTANTS.IP}images/${file.filename}`;
     //   body = {...body, image: image};
     // }
-    let { name, price, quantity, image, category } = req.body;
+    let { name, gender, image, description } = req.body;
 
     const dateTime = giveCurrentDateTime();
 
-    const storageRef = ref(storage, `products/${req.file.originalname + "       " + dateTime}`);
+    const storageRef = ref(storage, `categories/${req.file.originalname + "       " + dateTime}`);
 
     // Create file metadata including the content type
     const metadata = {
@@ -84,39 +76,38 @@ router.post('/new', [upload.single('image'),], async function (req, res, next) {
 
     console.log('File successfully uploaded.');
     // console.log("imageURL:", image);
-    await productController.addNewProduct(name, price, quantity, downloadURL, category);
-    return res.redirect('/cpanel/product');
+    await categoryController.addNewCategory(name, gender, downloadURL, description);
+    return res.redirect('/cpanel/categories');
   } catch (error) {
-    console.log('Add new product error: ', error);
+    console.log('Add new categories error: ', error);
     next(error);
   }
 });
 
 
-//http://localhost:3000/cpanel/product/
+//http://localhost:3000/cpanel/categories
 //hien thi trang cap nhat san pham  
 router.get('/:id/edit', [auth.authenWeb], async function (req, res, next) {
   try {
     const { id } = req.params;
-    const product = await productController.getProductByID(id);
-    let categories = await categoryController.getAllCategory();
-    // console.log("Category: ", categories)
-    for (let index = 0; index < categories.length; index++) {
-      const element = categories[index];
-      categories[index].selected = false;
-      if (element._id.toString() == product.category.toString()) {
-        categories[index].selected = true;
-      }
-    }
+    const categories = await categoryController.getCategoryByID(id);
 
-    res.render('product/edit', { product, categories });
+    // Assuming categories.gender is a string
+    const gender = categories.gender;
+
+    // Set the 'selected' attribute based on the gender value
+    const isNamSelected = gender === "Nam";
+    const isNuSelected = gender === "Nữ";
+
+    res.render('categories/edit', { categories, isNamSelected, isNuSelected });
   } catch (error) {
     next(error);
   }
 });
 
 
-//http://localhost:3000/cpanel/product/:id/edit
+
+//http://localhost:3000/cpanel/categories/:id/edit
 //xu li cap nhat san pham
 router.post('/:id/edit', [upload.single('image'),], async function (req, res, next) {
   try {
@@ -127,13 +118,13 @@ router.post('/:id/edit', [upload.single('image'),], async function (req, res, ne
     //   let image = `${CONFIG.CONTANTS.IP}images/${file.filename}`;
     //   body = { ...body, image: image };
     // }
-    // let { name, price, quantity, image, category } = body;
-    const {id} = req.params;
-    let { name, price, quantity, image, category } = req.body;
+    // let { name, gender, image, description } = body;
+    const { id } = req.params;
+    let { name, gender, image, description } = req.body;
 
     const dateTime = giveCurrentDateTime();
 
-    const storageRef = ref(storage, `products/${req.file.originalname + "       " + dateTime}`);
+    const storageRef = ref(storage, `categories/${req.file.originalname + "       " + dateTime}`);
 
     // Create file metadata including the content type
     const metadata = {
@@ -147,10 +138,10 @@ router.post('/:id/edit', [upload.single('image'),], async function (req, res, ne
     const downloadURL = await getDownloadURL(snapshot.ref);
 
     console.log('File successfully uploaded.');
-    await productController.updateProduct(id, name, price, quantity, downloadURL, category);
-    return res.redirect('/cpanel/product');
+    await categoryController.updateCategory(id, name, gender, downloadURL, description);
+    return res.redirect('/cpanel/categories');
   } catch (error) {
-    console.log('Update product error: ', error);
+    console.log('Update categories error: ', error);
     next(error);
   }
 });
