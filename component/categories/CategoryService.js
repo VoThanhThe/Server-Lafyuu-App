@@ -16,7 +16,7 @@ const getCategoryByWomen = async () => {
     try {
         // return data
         // select * from categories
-        return await categoryModel.find({gender: "Nữ"}).sort({created_at: -1});
+        return await categoryModel.find({status: true, gender: "Nữ"}).sort({created_at: -1});
     } catch (error) {
         console.log('get all category error: ', error);
     }
@@ -27,7 +27,7 @@ const getCategoryByMan = async () => {
     try {
         // return data
         // select * from categories
-        return await categoryModel.find({gender: "Nam"}).sort({created_at: -1});
+        return await categoryModel.find({status: true, gender: "Nam"}).sort({created_at: -1});
     } catch (error) {
         console.log('get all category error: ', error);
     }

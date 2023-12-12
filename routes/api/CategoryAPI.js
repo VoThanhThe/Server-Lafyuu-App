@@ -8,7 +8,7 @@ const upload = require('../../middle/UploadFile');
 
 
 //lấy danh sách sản phẩm
-//http://localhost:3000/api/order/:id
+//http://localhost:3000/api/categories/get-all-categories
 
 router.get('/get-all-categories', [authenApp], async (req, res, next) => {
     try {
