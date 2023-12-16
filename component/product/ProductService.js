@@ -7,7 +7,7 @@ const getAllProducts = async () => {
     try {
         // return data;
         // select * from 
-        return await productModel.find({status: true}).sort({created_at: -1});
+        return await productModel.find({ status: true }).sort({ created_at: -1 });
     } catch (error) {
         console.log('Get all products error: ', error);
     }
@@ -18,7 +18,7 @@ const getProductsByCategory = async (categoryID) => {
     try {
         // return data;
         // select * from 
-        return await productModel.find({category: categoryID});
+        return await productModel.find({ category: categoryID });
     } catch (error) {
         console.log('Get all products error: ', error);
     }
@@ -101,7 +101,7 @@ const getProductByID = async (id) => {
  * and price > 1000 and price < 2000
  * or quantity < 100
  */
-const search = async (keyword) => {
+const search = async (keyword, category, sort) => {
     try {
         let query = {
             //price: {$gt: 1000, $lt: 2000},
@@ -111,13 +111,38 @@ const search = async (keyword) => {
             // $options: i: ignore case
             //tìm kiếm theo tên sản phẩm có chứa keyword
             name: { $regex: keyword, $options: 'i' },
-            
+            // category: { $regex: category, $options: 'i'}
             //tìm kiếm theo tên
             //name: keyword,
         }
-        let product = await productModel.find(query);
-        console.log('keyword: ', keyword);
-        return product;
+        let queryAll = {
+            //price: {$gt: 1000, $lt: 2000},
+            //quantity: {$lte : 100},
+            //$or: [{quantity: {$lte: 100}}, {quantity: { $gt: 200}}],
+            // $regex: regular exeption
+            // $options: i: ignore case
+            //tìm kiếm theo tên sản phẩm có chứa keyword
+            name: { $regex: keyword, $options: 'i' },
+            category: { $regex: category}
+            //tìm kiếm theo tên
+            //name: keyword,
+        }
+        let sortByPrice = sort ? sort : -1 ;
+        if (keyword) {
+            let product = await productModel.find(queryAll).sort({price: sortByPrice});
+            if (product.length == 0) {
+                return null;
+            }
+            return product;
+        }
+        if (keyword && category) {
+            let product = await productModel.find(query).sort({price: sortByPrice});
+            if (product.length == 0) {
+                return null;
+            }
+            return product;
+        }
+        return null;
     } catch (error) {
         console.log('Get product by ID error: ', error);
     }
@@ -132,7 +157,7 @@ const getAllProducts2 = async () => {
         let products = await productModel
             .find({}, 'name price category')// lấy 2 file name và price
             .populate('category') // lấy thông tin category
-            .sort({price: -1}) // sắp xếp giảm dần
+            .sort({ price: -1 }) // sắp xếp giảm dần
             .skip(2)           // bỏ qua 2 sản phẩm đầu tiên,
             .limit(2);           //lấy 2 sản phẩm
         return products;
@@ -141,7 +166,9 @@ const getAllProducts2 = async () => {
     }
     return [];
 }
-module.exports = { getAllProducts, deleteProductByID, addNewProduct, updateProduct, 
-    getProductByID, search, getAllProducts2, getProductsByCategory };
+module.exports = {
+    getAllProducts, deleteProductByID, addNewProduct, updateProduct,
+    getProductByID, search, getAllProducts2, getProductsByCategory
+};
 
 //size = 20, page = 4

@@ -12,10 +12,10 @@ const schema = new Schema({
         maxlength: 50, // độ dài tối đa
         default: 'No name' // giá trị mặc định
     },
-    description: {type: String, default: "Không có"},
+    description: {type: String, default: ""},
     image: {type: String, default: "", required: true},
     status: {type: Boolean, default: true},
-    gender: {type: String, default: "Nam", required: true},
+    gender: {type: String, default: "Male", required: true},
     created_at: {type: Date, default: Date.now},
     updated_at: {type: Date, default: Date.now}
 });

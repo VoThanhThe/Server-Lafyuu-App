@@ -96,8 +96,8 @@ router.get('/:id/edit', [auth.authenWeb], async function (req, res, next) {
     const gender = categories.gender;
 
     // Set the 'selected' attribute based on the gender value
-    const isNamSelected = gender === "Nam";
-    const isNuSelected = gender === "Nữ";
+    const isNamSelected = gender === "Male";
+    const isNuSelected = gender === "Female";
 
     res.render('categories/edit', { categories, isNamSelected, isNuSelected });
   } catch (error) {

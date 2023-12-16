@@ -10,6 +10,7 @@ const schema = new Schema({
         name: { type: String, default: "" }, // tên người dùng
         gender: { type: String, default: "" },// giới tính
         birthday: { type: String, default: "" },// ngày sinh
+        phone: { type: String, default: "" },// so dt
     },
     role: { type: Number, default: 1, }, // Quyền hạn (quyền người dùng, quản trị viên, v.v.)
     //1: user, 100: admin, 1000: system
