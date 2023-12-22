@@ -77,8 +77,8 @@ router.post('/', async (req, res, next) => {
 //http://localhost:3000/api/product/search/name?keyword=abc
 router.get('/search/name', async (req, res, next) => {
     try {
-        const {keyword, category, sort} = req.query;
-        const products = await productController.search(keyword, category, sort);
+        const {keyword, categoryId, sort} = req.query;
+        const products = await productController.search(keyword, categoryId, sort);
         const returnData = {
             error: false,
             responseTimestamp: new Date(),

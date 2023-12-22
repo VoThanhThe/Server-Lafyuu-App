@@ -51,9 +51,9 @@ const addNewProduct = async (name,price,quantity,image,category, sale) => {
     }
 }
 
-const search = async (keyword) => {
+const search = async (keyword, categoryId, sort) => {
     try {
-        return await productService.search(keyword);
+        return await productService.search(keyword, categoryId, sort);
     } catch (error) {
         console.log('search product error',error);
     }

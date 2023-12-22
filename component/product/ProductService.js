@@ -101,52 +101,32 @@ const getProductByID = async (id) => {
  * and price > 1000 and price < 2000
  * or quantity < 100
  */
-const search = async (keyword, category, sort) => {
+const search = async (keyword, categoryId, sort) => {
     try {
         let query = {
-            //price: {$gt: 1000, $lt: 2000},
-            //quantity: {$lte : 100},
-            //$or: [{quantity: {$lte: 100}}, {quantity: { $gt: 200}}],
-            // $regex: regular exeption
-            // $options: i: ignore case
-            //tìm kiếm theo tên sản phẩm có chứa keyword
             name: { $regex: keyword, $options: 'i' },
-            // category: { $regex: category, $options: 'i'}
-            //tìm kiếm theo tên
-            //name: keyword,
         }
         let queryAll = {
-            //price: {$gt: 1000, $lt: 2000},
-            //quantity: {$lte : 100},
-            //$or: [{quantity: {$lte: 100}}, {quantity: { $gt: 200}}],
-            // $regex: regular exeption
-            // $options: i: ignore case
-            //tìm kiếm theo tên sản phẩm có chứa keyword
-            name: { $regex: keyword, $options: 'i' },
-            category: { $regex: category}
-            //tìm kiếm theo tên
-            //name: keyword,
+            $and: [
+                { name: { $regex: keyword, $options: 'i' } },
+                { category: categoryId }
+            ]
         }
-        let sortByPrice = sort ? sort : -1 ;
-        if (keyword) {
-            let product = await productModel.find(queryAll).sort({price: sortByPrice});
-            if (product.length == 0) {
-                return null;
-            }
+
+        if (keyword && categoryId && sort) {
+            let product = await productModel.find(queryAll).sort({price: sort});
+            return product;
+        }else if(keyword) {
+            let product = await productModel.find(query);
             return product;
         }
-        if (keyword && category) {
-            let product = await productModel.find(query).sort({price: sortByPrice});
-            if (product.length == 0) {
-                return null;
-            }
-            return product;
-        }
+        
+        // let product = await productModel.find(queryAll).sort({ quantity: sort });
+        // return product;
         return null;
     } catch (error) {
         console.log('Get product by ID error: ', error);
     }
-    return null;
 }
 
 
