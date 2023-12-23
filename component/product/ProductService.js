@@ -112,12 +112,20 @@ const search = async (keyword, categoryId, sort) => {
                 { category: categoryId }
             ]
         }
+        let queryByCategory = {
+            $and: [
+                { category: categoryId }
+            ]
+        }
 
         if (keyword && categoryId && sort) {
             let product = await productModel.find(queryAll).sort({price: sort});
             return product;
         }else if(keyword && sort) {
             let product = await productModel.find(query).sort({price: sort});
+            return product;
+        }else if(categoryId && sort) {
+            let product = await productModel.find(queryByCategory).sort({price: sort});
             return product;
         }
         
