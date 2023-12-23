@@ -116,8 +116,8 @@ const search = async (keyword, categoryId, sort) => {
         if (keyword && categoryId && sort) {
             let product = await productModel.find(queryAll).sort({price: sort});
             return product;
-        }else if(keyword) {
-            let product = await productModel.find(query);
+        }else if(keyword && sort) {
+            let product = await productModel.find(query).sort({price: sort});
             return product;
         }
         
