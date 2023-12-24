@@ -7,7 +7,7 @@ const getAllProducts = async () => {
     try {
         // return data;
         // select * from 
-        return await productModel.find({ status: true }).sort({ created_at: -1 });
+        return await productModel.find({ status: true }).populate("category").sort({ created_at: -1 });
     } catch (error) {
         console.log('Get all products error: ', error);
     }
@@ -87,7 +87,7 @@ const updateProduct = async (id, name, price, quantity, image, category, sale) =
 //lay thong tin san pham theo id
 const getProductByID = async (id) => {
     try {
-        let product = await productModel.findById(id);
+        let product = await productModel.findById(id).populate("category");
         return product;
     } catch (error) {
         console.log('Get product by ID error', error);
