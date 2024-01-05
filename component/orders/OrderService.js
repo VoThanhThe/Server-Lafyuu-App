@@ -1,11 +1,12 @@
 const orderModel = require('./OrderModel');
+const productModel = require('../product/ProductModel');
 
 //lấy toàn bộ sản phẩm
 //lấy theo page
 //limit
 const getAllOrders = async (id) => {
     try {
-        return await orderModel.find({user_id: id}).sort({ order_date: -1 });
+        return await orderModel.find({ user_id: id }).sort({ order_date: -1 });
     } catch (error) {
         console.log('Get all orders error: ', error);
     }
@@ -26,6 +27,18 @@ const deleteOrderByID = async (id) => {
 //Them moi đơn đặt hàng
 const addNewOrder = async (total_price, address, receiver_name, phone, items, user_id) => {
     try {
+        // Kiểm tra số lượng trong kho của từng sản phẩm
+        for (const item of items) {
+            const product = await productModel.findById(item.product_id);
+
+            if (!product) {
+                return res.status(404).json({ message: `Product with ID ${item.product_id} not found.` });
+            }
+
+            if (product.quantity < item.quantity) {
+                return res.status(400).json({ message: `Not enough stock for product with ID ${item.product_id}.` });
+            }
+        }
         const newOrder = {
             total_price,
             shipping_info: {
@@ -36,7 +49,16 @@ const addNewOrder = async (total_price, address, receiver_name, phone, items, us
             items: items,
             user_id
         }
-       const order = await orderModel.create(newOrder);
+        // Lưu đơn hàng vào cơ sở dữ liệu
+        const order = await orderModel.create(newOrder);
+
+        // Giảm số lượng trong kho của từng sản phẩm
+        for (const item of items) {
+            const product = await productModel.findById(item.product_id);
+            product.quantity -= item.quantity;
+            await product.save();
+        }
+
         return order;
     } catch (error) {
         console.log('Add new order error', error);
