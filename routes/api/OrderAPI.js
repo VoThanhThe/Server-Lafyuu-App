@@ -47,10 +47,10 @@ router.get('/:id', async (req, res, next) => {
     }
 })
 //them san pham
-//http://localhost:3000/api/product/
+//http://localhost:3000/api/product
 router.post('/', async (req, res, next) => {
     try {
-        const { total_price, address, receiver_name, phone, items, user_id } = req.body;
+        const { total_price, shipping_info, items, user_id } = req.body;
         const user = await userModel.findById(user_id);
         // const product = await productModel.findById(product_id);
 
@@ -70,7 +70,7 @@ router.post('/', async (req, res, next) => {
         // if (!user || !product) {
         //     return res.status(400).json({ message: 'Invalid user or product' });
         // }
-        const orders = await orderController.addNewOrder(total_price, address, receiver_name, phone, items, user_id);
+        const orders = await orderController.addNewOrder(total_price, shipping_info, items, user_id);
         // if (orders) {
         //     product.quantity -= quantity;
         //     await product.save();

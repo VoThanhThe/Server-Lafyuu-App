@@ -21,6 +21,8 @@ const userAPIRouter = require('./routes/api/UserAPI');
 const paymentRouter = require('./routes/api/PaymentAPI');
 const orderRouter = require('./routes/api/OrderAPI');
 const categoryRouter = require('./routes/api/CategoryAPI');
+const addressRouter = require('./routes/api/AddressAPI');
+const favoriteRouter = require('./routes/api/FavoriteAPI');
 
 var app = express();
 
@@ -73,6 +75,10 @@ app.use('/payments', paymentRouter);
 app.use('/api/order', orderRouter);
 //http://localhost:3000/api/categories
 app.use('/api/categories', categoryRouter);
+//http://localhost:3000/api/addresses
+app.use('/api/addresses', addressRouter);
+//http://localhost:3000/api/favorites
+app.use('/api/favorites', favoriteRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

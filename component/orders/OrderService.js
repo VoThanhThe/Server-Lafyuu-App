@@ -25,7 +25,7 @@ const deleteOrderByID = async (id) => {
 }
 
 //Them moi đơn đặt hàng
-const addNewOrder = async (total_price, address, receiver_name, phone, items, user_id) => {
+const addNewOrder = async (total_price, shipping_info, items, user_id) => {
     try {
         // Kiểm tra số lượng trong kho của từng sản phẩm
         for (const item of items) {
@@ -41,11 +41,7 @@ const addNewOrder = async (total_price, address, receiver_name, phone, items, us
         }
         const newOrder = {
             total_price,
-            shipping_info: {
-                address: address,
-                receiver_name: receiver_name,
-                phone: phone
-            },
+            shipping_info,
             items: items,
             user_id
         }

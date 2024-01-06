@@ -8,8 +8,6 @@ const upload = require('../../middle/UploadFile');
 
 //http://localhost:3000/api/product
 
-
-
 //lấy danh sách sản phẩm
 //http://localhost:3000/api/product
 
