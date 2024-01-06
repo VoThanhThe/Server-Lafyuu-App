@@ -1,8 +1,8 @@
 const orderService = require('./OrderService');
 
-const getAllOrders = async (id) => {
+const getAllOrders = async (user_id) => {
     try {
-        return await orderService.getAllOrders(id);
+        return await orderService.getAllOrders(user_id);
     } catch (error) {
         throw error;
     }

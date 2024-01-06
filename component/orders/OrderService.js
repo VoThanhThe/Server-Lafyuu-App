@@ -4,9 +4,9 @@ const productModel = require('../product/ProductModel');
 //lấy toàn bộ sản phẩm
 //lấy theo page
 //limit
-const getAllOrders = async (id) => {
+const getAllOrders = async (user_id) => {
     try {
-        return await orderModel.find({ user_id: id }).sort({ order_date: -1 });
+        return await orderModel.find({ user_id: user_id }).sort({ order_date: -1 });
     } catch (error) {
         console.log('Get all orders error: ', error);
     }
@@ -81,9 +81,22 @@ const updateOrder = async (id, status) => {
 }
 
 //lay thong tin đơn hàng theo id
+// const getOrderByID = async (id) => {
+//     try {
+//         let order = await orderModel.findById(id).sort({ order_date: -1 });
+//         return order;
+//     } catch (error) {
+//         console.log('Get order by ID error', error);
+//     }
+//     return null;
+
+// }
+
+//lay thong tin đơn hàng theo id
 const getOrderByID = async (id) => {
     try {
-        let order = await orderModel.findById(id).sort({ order_date: -1 });
+        let order = await orderModel.findById(id).populate("items.product_id").
+        populate("shipping_info");
         return order;
     } catch (error) {
         console.log('Get order by ID error', error);

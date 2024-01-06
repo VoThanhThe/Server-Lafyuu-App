@@ -5,7 +5,9 @@ const schema = new Schema({
     id: { type: ObjectId }, // khóa chính
     order_date: { type: Date, default: Date.now }, // Thời gian đặt hàng
     total_price: { type: Number, required: true }, // Tổng giá trị đơn hàng
-    status: { type: String, default: "Processing" }, // Trạng thái đơn hàng (đang xử lý, đã giao hàng, v.v.)
+    status: { type: String, default: "Packing" }, 
+    // Trạng thái đơn hàng (Packing (Đang Đóng Gói), 
+    // Shipping (Đang Vận Chuyển), Arriving (Đã Đến), Success (Thành Công))
     items: [
         {
             product_id: { type: Schema.Types.ObjectId, ref: 'product', required: true },

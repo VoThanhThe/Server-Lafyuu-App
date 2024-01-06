@@ -15,10 +15,10 @@ const upload = require('../../middle/UploadFile');
 //lấy danh sách sản phẩm
 //http://localhost:3000/api/order/:id
 
-router.get('/:id', [authenApp], async (req, res, next) => {
+router.get('/:user_id', [authenApp], async (req, res, next) => {
     try {
-        const {id} = req.params;
-        const orders = await orderController.getAllOrders(id);
+        const {user_id} = req.params;
+        const orders = await orderController.getAllOrders(user_id);
         const returnData = {
             error: false,
             responseTimestamp: new Date(),
@@ -30,8 +30,8 @@ router.get('/:id', [authenApp], async (req, res, next) => {
         return res.status(400).json({ result: false, error: error });
     }
 })
-//http://localhost:3000/api/product/:id
-router.get('/:id', async (req, res, next) => {
+//http://localhost:3000/api/order/:id
+router.get('/:id/order-detail', async (req, res, next) => {
     try {
         const { id } = req.params;
         const orders = await orderController.getOrderByID(id);
