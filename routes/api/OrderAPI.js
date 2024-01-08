@@ -47,11 +47,17 @@ router.get('/:id/order-detail', async (req, res, next) => {
     }
 })
 //them san pham
-//http://localhost:3000/api/product
+//http://localhost:3000/api/order
 router.post('/', async (req, res, next) => {
     try {
         const { total_price, shipping_info, items, user_id } = req.body;
         const user = await userModel.findById(user_id);
+        const returnData = {
+            error: false,
+            responseTimestamp: new Date(),
+            statusCode: 200,
+            data: {},
+        }
         // const product = await productModel.findById(product_id);
 
         // let itemOrder = [
@@ -75,7 +81,7 @@ router.post('/', async (req, res, next) => {
         //     product.quantity -= quantity;
         //     await product.save();
         // }
-        return res.status(200).json({ result: true, orders: orders });
+        return res.status(200).json({ result: true, orders: orders, returnData });
     } catch (error) {
         return res.status(400).json({ result: false, errors: error.message });
     }
