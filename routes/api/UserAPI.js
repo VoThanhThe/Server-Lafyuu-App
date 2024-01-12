@@ -97,8 +97,15 @@ router.post('/login', async (req, res, next) => {
             const token = jwt.sign({ user }, "secret",
                 { expiresIn: '1h' });
             return res.status(200).json({ result: true, returnData, user: user, token });
+        } else {
+            const returnData = {
+                error: true,
+                responseTimestamp: new Date(),
+                statusCode: 400,
+                data: {},
+            }
+            return res.status(400).json({ result: false, returnData: returnData, user: null });
         }
-        return res.status(400).json({ result: false, user: null });
     } catch (error) {
         console.log(error);
         return res.status(400).json({ result: false, user: null });
@@ -158,6 +165,24 @@ router.post('/register', [validation.checkRegister], async (req, res, next) => {
     }
 })
 
+//http://localhost:3000/api/user/get-user?user_id=
+router.get('/get-user', async (req, res, next) => {
+    try {
+        const { user_id } = req.query;
+        const result = await userController.getUserByID(user_id);
+        const returnData = {
+            error: false,
+            responseTimestamp: new Date(),
+            statusCode: 200,
+            data: {},
+        }
+        return res.status(200).json({ user: result, returnData });
+    } catch (error) {
+        console.log(error);
+        return res.status(400).json({ result: false });
+    }
+})
+
 //http://localhost:3000/api/user/id/edit_profile
 router.post('/:user_id/edit_profile', async (req, res, next) => {
     try {
@@ -170,7 +195,7 @@ router.post('/:user_id/edit_profile', async (req, res, next) => {
             statusCode: 200,
             data: {},
         }
-        return res.status(200).json({ returnData });
+        return res.status(200).json({ user: result, returnData });
     } catch (error) {
         console.log(error);
         return res.status(400).json({ result: false });

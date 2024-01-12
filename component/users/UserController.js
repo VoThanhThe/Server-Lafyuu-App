@@ -34,6 +34,15 @@ const edit_profile = async (user_id, avatar, name, gender, birthday) => {
     
 }
 
+const getUserByID = async (user_id) => {
+    try {
+        return await userService.getUserByID(user_id);
+    } catch (error) {
+        console.log(error);
+    }   
+    
+}
+
 const sendEmail = async (req,res,next) => {
     try {
     
@@ -52,6 +61,6 @@ const getAllUser = async () => {
 }
 
 
-module.exports = {login, register, edit_profile, getAllUser};
+module.exports = {login, register, edit_profile, getAllUser, getUserByID};
 //Email account;
 //pnpxfmlosbkdmkhm

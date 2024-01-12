@@ -44,7 +44,7 @@ const edit_profile = async (user_id, avatar, name, gender, birthday) => {
             user.profile.gender = gender ? gender : user.profile.gender;
             user.profile.birthday = birthday ? birthday : user.profile.birthday;
             await user.save();
-            return true;
+            return user;
         }
     } catch (error) {
         console.log(error);
@@ -63,7 +63,19 @@ const getAllUser = async () => {
     return [];
 }
 
-module.exports = { login, register, edit_profile, getAllUser };
+const getUserByID = async (user_id) => {
+    try {
+        //kiểm tra tài khoản đã có chưa
+        // select * from users where email = email
+        const user = await userModel.findOne({ _id: user_id });
+        return user;
+    } catch (error) {
+        console.log(error);
+    }
+    return false;
+}
+
+module.exports = { login, register, edit_profile, getAllUser, getUserByID };
 
 var users = [
     { _id: 1, email: 'abc@gmail.com', password: '123', name: "Nguyễn Nam" },
