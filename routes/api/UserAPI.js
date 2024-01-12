@@ -37,9 +37,16 @@ router.get('/verify-email', async (req, res, next) => {
     try {
         const { email, password } = req.query;
         const user = { email: email, password: password };
+        const result = await userController.register(email, password);
+        const returnData = {
+            error: false,
+            responseTimestamp: new Date(),
+            statusCode: 200,
+            data: {},
+        }
         if (user) {
             await userModel.create(user);
-            return res.status(200).json({ user });
+            return res.status(200).json({ user, returnData });
         } else {
             return false;
         }
@@ -134,18 +141,17 @@ router.post('/register', [validation.checkRegister], async (req, res, next) => {
                     console.log('Email sent successfully');
                 }
             });
-            return res.status(200).json({ user: newUser });
+            const returnData = {
+                error: false,
+                responseTimestamp: new Date(),
+                statusCode: 200,
+                data: {},
+            }
+            return res.status(200).json({ user: newUser, returnData });
         } else {
             return res.status(400).json({ result: false, message: 'Email đã tồn tại' });
         }
-        // const result = await userController.register(email,password);
-        // const returnData = {
-        //     error: false,
-        //     responseTimestamp: new Date(),
-        //     statusCode: 200,
-        //     data: {},
-        // }
-        // return res.status(200).json({returnData});
+
     } catch (error) {
         console.log(error);
         return res.status(400).json({ result: false });
