@@ -187,8 +187,8 @@ router.get('/get-user', async (req, res, next) => {
 router.post('/:user_id/edit_profile', async (req, res, next) => {
     try {
         const { user_id } = req.params;
-        const { avatar, name, gender, birthday } = req.body;
-        const result = await userController.edit_profile(user_id, avatar, name, gender, birthday);
+        const { avatar, name, gender, birthday, phone } = req.body;
+        const result = await userController.edit_profile(user_id, avatar, name, gender, birthday, phone);
         const returnData = {
             error: false,
             responseTimestamp: new Date(),

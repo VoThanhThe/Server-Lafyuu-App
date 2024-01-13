@@ -25,9 +25,9 @@ const register = async (email,password) => {
     
 }
 
-const edit_profile = async (user_id, avatar, name, gender, birthday) => {
+const edit_profile = async (user_id, avatar, name, gender, birthday, phone) => {
     try {
-        return await userService.edit_profile(user_id, avatar, name, gender, birthday);
+        return await userService.edit_profile(user_id, avatar, name, gender, birthday, phone);
     } catch (error) {
         console.log(error);
     }   

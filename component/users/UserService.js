@@ -33,7 +33,7 @@ const register = async (email, password) => {
     return false;
 }
 
-const edit_profile = async (user_id, avatar, name, gender, birthday) => {
+const edit_profile = async (user_id, avatar, name, gender, birthday, phone) => {
     try {
         //kiểm tra tài khoản đã có chưa
         // select * from users where email = email
@@ -43,6 +43,7 @@ const edit_profile = async (user_id, avatar, name, gender, birthday) => {
             user.profile.name = name ? name : user.profile.name;
             user.profile.gender = gender ? gender : user.profile.gender;
             user.profile.birthday = birthday ? birthday : user.profile.birthday;
+            user.profile.phone = phone ? phone : user.profile.phone;
             await user.save();
             return user;
         }
