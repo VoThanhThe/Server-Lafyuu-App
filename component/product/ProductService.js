@@ -3,11 +3,25 @@ const productModel = require('./ProductModel');
 //lấy toàn bộ sản phẩm
 //lấy theo page
 //limit
-const getAllProducts = async () => {
+const PAGE_SIZE = 10;
+
+const getAllProducts = async (page) => {
     try {
-        // return data;
-        // select * from 
-        return await productModel.find({ status: true }).populate("category").sort({ created_at: -1 });
+        if (page && page > 0) {
+            const skipCount = (parseInt(page) - 1) * PAGE_SIZE;
+
+            const products = await productModel
+                .find({ status: true })
+                .populate("category")
+                .sort({ created_at: -1 })
+                .skip(skipCount)
+                .limit(PAGE_SIZE);
+
+            return products;
+        } else {
+            // Nếu page không có hoặc không hợp lệ, trả về toàn bộ danh sách
+            return await productModel.find({ status: true }).populate("category").sort({ created_at: -1 });
+        }
     } catch (error) {
         console.log('Get all products error: ', error);
     }
@@ -119,16 +133,16 @@ const search = async (keyword, categoryId, sort) => {
         }
 
         if (keyword && categoryId && sort) {
-            let product = await productModel.find(queryAll).sort({price: sort});
+            let product = await productModel.find(queryAll).sort({ price: sort });
             return product;
-        }else if(keyword && sort) {
-            let product = await productModel.find(query).sort({price: sort});
+        } else if (keyword && sort) {
+            let product = await productModel.find(query).sort({ price: sort });
             return product;
-        }else if(categoryId && sort) {
-            let product = await productModel.find(queryByCategory).sort({price: sort});
+        } else if (categoryId && sort) {
+            let product = await productModel.find(queryByCategory).sort({ price: sort });
             return product;
         }
-        
+
         // let product = await productModel.find(queryAll).sort({ quantity: sort });
         // return product;
         return null;

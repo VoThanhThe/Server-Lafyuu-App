@@ -1,9 +1,9 @@
 const productService = require('./ProductService');
 
-const getAllProduct = async () => {
+const getAllProduct = async (page) => {
     try {
         //return await productService.getAllProducts();
-        return await productService.getAllProducts();
+        return await productService.getAllProducts(page);
     } catch (error) {
         throw error;
     }
