@@ -5,7 +5,7 @@ const getAllAddress = async (user_id) => {
     try {
         // return data
         // select * from categories
-        return await addressModel.find({user_id: user_id}).sort({created_at: -1});
+        return await addressModel.find({user_id: user_id, status: true}).sort({created_at: -1});
     } catch (error) {
         console.log('get all address error: ', error);
     }
@@ -15,7 +15,12 @@ const getAllAddress = async (user_id) => {
 //Delete address
 const deleteAddressByID = async (id) => {
     try {
-        let address = await addressModel.findByIdAndDelete(id);
+        let address = await addressModel.findById(id);
+        if (address) {
+            address.status = false;
+            await address.save();
+            return true;
+        }
     } catch (error) {
         console.log('Delete address by ID error', error);
         throw error;

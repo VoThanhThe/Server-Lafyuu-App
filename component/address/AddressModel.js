@@ -7,6 +7,7 @@ const schema = new Schema({
     receiver_name: { type: String, required: true },
     phone: { type: String, required: true },
     user_id: { type: ObjectId, ref: 'user', required: true }, // Tham chiếu đến mô hình người dùng (User)
+    status: {type: Boolean, default: true},
     create_at: { type: Date, default: Date.now },
     updated_at: { type: Date, default: Date.now },
 });
