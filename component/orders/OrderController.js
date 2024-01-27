@@ -35,7 +35,7 @@ const getOrderByID = async (id) => {
 
 const addNewOrder = async (total_price, shipping_info, items, user_id) => {
     try {
-        await orderService.addNewOrder(total_price, shipping_info, items, user_id);
+       return await orderService.addNewOrder(total_price, shipping_info, items, user_id);
     } catch (error) {
         console.log('add new order error',error);
     }

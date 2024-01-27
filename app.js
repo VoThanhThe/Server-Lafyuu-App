@@ -23,6 +23,7 @@ const orderRouter = require('./routes/api/OrderAPI');
 const categoryRouter = require('./routes/api/CategoryAPI');
 const addressRouter = require('./routes/api/AddressAPI');
 const favoriteRouter = require('./routes/api/FavoriteAPI');
+const notificationRouter = require('./routes/api/NotificationAPI');
 
 var app = express();
 
@@ -79,6 +80,8 @@ app.use('/api/categories', categoryRouter);
 app.use('/api/addresses', addressRouter);
 //http://localhost:3000/api/favorites
 app.use('/api/favorites', favoriteRouter);
+//http://localhost:3000/api/notification
+app.use('/api/notification', notificationRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

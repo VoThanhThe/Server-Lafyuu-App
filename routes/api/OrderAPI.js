@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const orderController = require('../../component/orders/OrderController');
+const notificationController = require('../../component/notification/NotificationController');
 const productModel = require('../../component/product/ProductModel');
 const userModel = require('../../component/users/UserModel');
 
@@ -17,7 +18,7 @@ const upload = require('../../middle/UploadFile');
 
 router.get('/:user_id', [authenApp], async (req, res, next) => {
     try {
-        const {user_id} = req.params;
+        const { user_id } = req.params;
         const orders = await orderController.getAllOrders(user_id);
         const returnData = {
             error: false,
@@ -58,29 +59,9 @@ router.post('/', async (req, res, next) => {
             statusCode: 200,
             data: {},
         }
-        // const product = await productModel.findById(product_id);
-
-        // let itemOrder = [
-        //     {
-        //         product_id:  product_id,
-        //         quantity: quantity,
-        //         price: phone
-        //     },
-        //     {
-        //         product_id:  product_id,
-        //         quantity: quantity,
-        //         price: price
-        //     }
-        // ]
-
-        // if (!user || !product) {
-        //     return res.status(400).json({ message: 'Invalid user or product' });
-        // }
         const orders = await orderController.addNewOrder(total_price, shipping_info, items, user_id);
-        // if (orders) {
-        //     product.quantity -= quantity;
-        //     await product.save();
-        // }
+        const orderId = orders._id;
+        await notificationController.addNotificationOrder(user_id, orderId);
         return res.status(200).json({ result: true, orders: orders, returnData });
     } catch (error) {
         return res.status(400).json({ result: false, errors: error.message });
