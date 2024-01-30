@@ -13,6 +13,7 @@
     "express": "~4.16.1",
     "express-session": "^1.17.3",
     "firebase": "^10.6.0",
+    "firebase-admin": "^12.0.0",
     "hbs": "~4.0.4",
     "http-errors": "~1.6.3",
     "jsonwebtoken": "^9.0.0",

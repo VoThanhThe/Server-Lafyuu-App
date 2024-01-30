@@ -9,7 +9,8 @@ const schema = new Schema({
     user_id: { type: ObjectId, ref: 'user', required: true },
     metadata: {
         type: mongoose.Schema.Types.Mixed
-    }
+    },
+    isRead: {type: Boolean, default: false}
 });
 module.exports = mongoose.models.notification || mongoose.model('notification', schema);
 // order -----> orders

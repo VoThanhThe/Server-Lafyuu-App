@@ -53,6 +53,7 @@ router.post('/', async (req, res, next) => {
     try {
         const { total_price, shipping_info, items, user_id } = req.body;
         const user = await userModel.findById(user_id);
+
         const returnData = {
             error: false,
             responseTimestamp: new Date(),
