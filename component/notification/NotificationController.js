@@ -16,6 +16,14 @@ const deleteNotificationByID = async (id) => {
     }
 }
 
+const updateNotification = async (id) => {
+    try {
+        return await notificationService.updateNotification(id);
+    } catch (error) {
+        throw error;
+    }
+}
+
 const addNotificationOrder = async (userId, orderId) => {
     try {
         await notificationService.addNotificationOrder(userId, orderId);
@@ -24,4 +32,4 @@ const addNotificationOrder = async (userId, orderId) => {
     }
 }
 
-module.exports ={getAllNotification, addNotificationOrder, deleteNotificationByID };
+module.exports ={getAllNotification, addNotificationOrder, deleteNotificationByID, updateNotification };

@@ -45,4 +45,19 @@ const addNotificationOrder = async (userId, orderId) => {
     return false;
 }
 
-module.exports = {getAllNotification, addNotificationOrder, deleteNotificationByID};
+const updateNotification = async (id) => {
+    try {
+        let notification = await notificationModel.findById(id);
+        if (notification) {
+            notification.isRead = true;
+            await notification.save();
+            return true;
+        }
+
+    } catch (error) {
+        console.log('Update notification error', error);
+    }
+    return false;
+}
+
+module.exports = {getAllNotification, addNotificationOrder, deleteNotificationByID, updateNotification};

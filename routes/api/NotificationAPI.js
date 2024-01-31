@@ -47,6 +47,22 @@ router.post('/delete-notification', [authenApp], async (req, res, next) => {
         return res.status(400).json({ result: false, error: error });
     }
 })
+//http://localhost:3000/api/notification/update-notification
+router.post('/update-notification', [authenApp], async (req, res, next) => {
+    try {
+        const { id } = req.query;
+        const notification = await notificationController.updateNotification(id);
+        const returnData = {
+            error: false,
+            responseTimestamp: new Date(),
+            statusCode: 200,
+            data: {},
+        }
+        return res.status(200).json({ result: true, notification: notification, returnData });
+    } catch (error) {
+        return res.status(400).json({ result: false, error: error });
+    }
+})
 
 //http://localhost:3000/api/notification
 router.post('/', [authenApp], async (req, res, next) => {
